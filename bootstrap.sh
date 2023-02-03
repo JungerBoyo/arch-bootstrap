@@ -32,9 +32,10 @@ init_packages() {
 }
 
 init_config_files() {
-    cp .alarcritty.yml .bashrc vimrc .xinitrc $HOME/
+    sudo cp vimrc /etc/
+    cp .alacritty.yml .bashrc .xinitrc $HOME/
     mkdir $HOME/Pictures
-    cp WP2-1920-1080.png $HOME/Pictures
+    cp WP2-1920x1080.png $HOME/Pictures
     sudo cp config.ini /etc/ly/
 }
 
@@ -45,15 +46,14 @@ init_services() {
 }
 
 init_git_packages() {
-    local PREV_DIR = $(pwd)
+    local PREV_DIR=$(pwd)
     
     # enter home
     cd $HOME
 
     # set up ly display manager
     git clone --recurse-submodules https://github.com/fairyglade/ly
-    cd ly
-    sudo make install installsystemd
+    sudo make install installsystemd -C ly
 
     # set up dwmstatus 
     git clone git://git.suckless.org/dwmstatus
@@ -68,7 +68,7 @@ init_git_packages() {
     make -C dwm
     
     # set up symbolic links for dwmstatus,dmenu,dwm execs
-    local LINK_DIR="usr/local/bin"
+    local LINK_DIR="/usr/local/bin"
     local EXECS=(
         "dwmstatus/dwmstatus"
         "dwmstatus/dwmstatus-restart"
@@ -76,11 +76,11 @@ init_git_packages() {
         "dmenu/dmenu"
         "dmenu/dmenu_path"
         "dmenu/dmenu_run"
-        "dmenu/dmenu_stest"
+        "dmenu/stest"
     )
-    for e in EXECS 
+    for e in ${EXECS[@]}
         do
-            sudo ln -s $(HOME)/${e} ${LINK_DIR}/$(basename $e)
+            sudo ln -s ${HOME}/${e} ${LINK_DIR}/$(basename $e)
         done 
 
     cd $PREV_DIR
