@@ -78,7 +78,7 @@ init_git_packages() {
         "dmenu/dmenu_run"
         "dmenu/stest"
     )
-    for e in ${EXECS[@]}
+    for e in "${EXECS[@]}"
         do
             sudo ln -s ${HOME}/${e} ${LINK_DIR}/$(basename $e)
         done 
