@@ -28,7 +28,8 @@ init_packages() {
     xorg-server\
     xorg-xinit\
     libxft\
-    libxinerama
+    libxinerama\
+    zig
 }
 
 init_config_files() {
@@ -59,6 +60,12 @@ init_git_packages() {
     git clone git://git.suckless.org/dwmstatus
     make -C dwmstatus
 
+    # set up zi-status        
+    git clone https://github.com/JungerBoyo/zi-status.git
+    cd zi-status/
+    zig build -Drelease-fast=true
+    cd ../
+
     # set up dmenu
     git clone git://git.suckless.org/dmenu
     make -C dmenu 
@@ -70,8 +77,7 @@ init_git_packages() {
     # set up symbolic links for dwmstatus,dmenu,dwm execs
     local LINK_DIR="/usr/local/bin"
     local EXECS=(
-        "dwmstatus/dwmstatus"
-        "dwmstatus/dwmstatus-restart"
+        "zi-status/zig-out/bin/zi-status"
         "dwm/dwm"
         "dmenu/dmenu"
         "dmenu/dmenu_path"
